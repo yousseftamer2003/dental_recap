@@ -1,7 +1,7 @@
 import 'package:dental_recap/core/themes/colors.dart';
-import 'package:dental_recap/features/auth/data/repos/auth_repo.dart';
+import 'package:dental_recap/features/auth/data/auth_repo.dart';
 import 'package:dental_recap/features/auth/logic/login_cubit.dart';
-import 'package:dental_recap/features/auth/ui/widgets/login_content.dart';
+import 'package:dental_recap/features/auth/ui/widgets/login_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,44 +14,38 @@ class LoginScreen extends StatelessWidget {
       create: (_) => LoginCubit(AuthRepo()),
       child: Scaffold(
         body: Container(
-          width: double.infinity,
           height: double.infinity,
+          width: double.infinity,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                AppColors.mainBlue,
-                AppColors.secondryBlue,
-                AppColors.tertiaryBlue,
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
+              colors: [AppColors.darkBlue, AppColors.mainBlue],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Image.asset('assets/doctors_image_auth.png'),
-                  const Positioned(
-                    bottom: 30,
-                    left: 0,
-                    right: 20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Welcome', style: TextStyle(fontSize: 36)),
-                        Text(
-                          'find the best dentists near you',
-                          style: TextStyle(fontSize: 32, color: Colors.white),
-                        ),
-                      ],
-                    ),
+          child: const SafeArea(
+            child: Column(
+              children: [
+                SizedBox(height: 32),
+                Icon(Icons.flutter_dash, color: Colors.white, size: 64),
+                SizedBox(height: 12),
+                Text(
+                  'Chirp',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.w700,
                   ),
-                ],
-              ),
-              const SizedBox(height: 5),
-              const Expanded(child: LoginContent()),
-            ],
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'A simple Twitter clone',
+                  style: TextStyle(color: Colors.white70, fontSize: 16),
+                ),
+                SizedBox(height: 24),
+                Expanded(child: LoginContentWidget()),
+              ],
+            ),
           ),
         ),
       ),

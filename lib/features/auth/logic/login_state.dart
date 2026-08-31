@@ -1,6 +1,6 @@
-import 'package:dental_recap/features/auth/data/models/login_response.dart';
+import 'package:dental_recap/features/auth/data/user_model.dart';
 
-sealed class LoginState {
+abstract class LoginState {
   const LoginState();
 }
 
