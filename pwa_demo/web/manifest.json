@@ -1,12 +1,12 @@
 {
-    "name": "Chirp",
-    "short_name": "Chirp",
+    "name": "Dayline",
+    "short_name": "Dayline",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#1D9BF0",
-    "theme_color": "#1D9BF0",
-    "description": "A simple Twitter clone for Flutter Web and PWA.",
-    "orientation": "portrait-primary",
+    "background_color": "#0F766E",
+    "theme_color": "#0F766E",
+    "description": "A small daily planner for tasks and notes.",
+    "orientation": "any",
     "prefer_related_applications": false,
     "icons": [
         {
