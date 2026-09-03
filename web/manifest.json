@@ -1,11 +1,11 @@
 {
-    "name": "Chirp",
-    "short_name": "Chirp",
+    "name": "Twitter Clone",
+    "short_name": "Twitter Clone",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#1D9BF0",
     "theme_color": "#1D9BF0",
-    "description": "A simple Twitter clone for Flutter Web and PWA.",
+    "description": "Twitter Clone — Flutter Web and PWA course project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

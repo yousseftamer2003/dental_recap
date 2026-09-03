@@ -1,12 +1,18 @@
+import 'package:dental_recap/twitter_clone_app.dart';
+import 'package:dental_recap/core/routing/app_router.dart';
+import 'package:dental_recap/core/routing/routes.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:dental_recap/main.dart';
 
 void main() {
   testWidgets('Login screen loads', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(
+      TwitterCloneApp(
+        appRouter: AppRouter(),
+        initialRoute: Routes.login,
+      ),
+    );
 
-    expect(find.text('Chirp'), findsOneWidget);
+    expect(find.text('Twitter Clone'), findsOneWidget);
     expect(find.text('Log in'), findsOneWidget);
   });
 }
