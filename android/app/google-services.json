@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "252665621330",
+    "project_id": "twitter-clone-f8b9d",
+    "storage_bucket": "twitter-clone-f8b9d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252665621330:android:9f3911d1e8a9bcc252288b",
+        "android_client_info": {
+          "package_name": "com.example.dental_recap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXQ_lZ7MN8-_wSUBZQ9D5ERekFGdTzkQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

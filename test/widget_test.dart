@@ -8,7 +8,7 @@ void main() {
     await tester.pumpWidget(
       TwitterCloneApp(
         appRouter: AppRouter(),
-        initialRoute: Routes.login,
+        initialRoute: Routes.splash,
       ),
     );
 

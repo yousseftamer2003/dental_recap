@@ -247,7 +247,7 @@ as T,
 
 
 class Failure<T> implements FirebaseResult<T> {
-  const Failure(this.error);
+   Failure(this.error);
   
 
  final  FirebaseErrorModel error;

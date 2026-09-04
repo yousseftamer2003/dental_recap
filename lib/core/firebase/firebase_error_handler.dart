@@ -1,58 +1,53 @@
 import 'dart:developer';
 
-import 'package:dental_recap/core/constants/strings.dart';
 import 'package:dental_recap/core/firebase/firebase_error_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseErrorHandler {
-  static FirebaseErrorModel handle(dynamic error) {
-    if (error is FirebaseAuthException) {
-      return FirebaseErrorModel(
-        code: error.code,
-        message: _authMessage(error),
-      );
+  static FirebaseErrorModel handleError(dynamic e) {
+    if (e is FirebaseAuthException) {
+      return FirebaseErrorModel(message: _authMessage(e), code: e.code);
     }
 
-    if (error is FirebaseException) {
-      return FirebaseErrorModel(
-        code: error.code,
-        message: _firestoreMessage(error),
-      );
+    if (e is FirebaseException) {
+      return FirebaseErrorModel(message: _firestoreMessage(e), code: e.code);
     }
 
-    log(error.toString());
-    return FirebaseErrorModel(message: FirebaseErrorConstants.defaultError);
+    log('Error logging: ${e.toString()}');
+    return FirebaseErrorModel(message: 'Something went wrong', code: 'unknown');
   }
 
-  static String _authMessage(FirebaseAuthException error) {
-    switch (error.code) {
-      case 'user-not-found':
-      case 'wrong-password':
-      case 'invalid-credential':
-        return 'Wrong email or password.';
-      case 'email-already-in-use':
-        return 'This email is already registered.';
-      case 'weak-password':
-        return 'Password should be at least 6 characters.';
-      case 'invalid-email':
-        return 'Enter a valid email.';
-      case 'network-request-failed':
-        return FirebaseErrorConstants.noInternetError;
+  static String _authMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case "user-not-found":
+        return "User not found";
+      case "wrong-password":
+        return "Wrong password";
+      case "invalid-email":
+        return "Invalid email";
+      case "user-disabled":
+        return "User disabled";
+      case "too-many-requests":
+        return "Too many requests";
+      case "network-request-failed":
+        return "Network Error";
+      case "email-already-in-use":
+        return "Email already in use";
       default:
-        return error.message ?? FirebaseErrorConstants.defaultError;
+        return "Something went wrong";
     }
   }
 
-  static String _firestoreMessage(FirebaseException error) {
-    switch (error.code) {
-      case 'permission-denied':
-        return FirebaseErrorConstants.permissionDenied;
-      case 'not-found':
-        return FirebaseErrorConstants.notFound;
-      case 'unavailable':
-        return FirebaseErrorConstants.noInternetError;
+  static String _firestoreMessage(FirebaseException e) {
+    switch (e.code) {
+      case "not-found":
+        return "Not found";
+      case "permission-denied":
+        return "Permission denied";
+      case "aborted":
+        return "Aborted";
       default:
-        return error.message ?? FirebaseErrorConstants.defaultError;
+        return "Something went wrong";
     }
   }
 }

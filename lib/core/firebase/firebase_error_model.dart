@@ -9,10 +9,6 @@ class FirebaseErrorModel {
 
   FirebaseErrorModel({this.message, this.code});
 
-  factory FirebaseErrorModel.fromJson(Map<String, dynamic> json) =>
-      _$FirebaseErrorModelFromJson(json);
-
+  factory FirebaseErrorModel.fromJson(Map<String, dynamic> json) => _$FirebaseErrorModelFromJson(json);
   Map<String, dynamic> toJson() => _$FirebaseErrorModelToJson(this);
-
-  String get displayMessage => message ?? 'Unknown error';
 }

@@ -1,5 +1,7 @@
+import 'package:dental_recap/core/helpers/extensions.dart';
 import 'package:dental_recap/core/routing/routes.dart';
 import 'package:dental_recap/core/themes/app_colors.dart';
+import 'package:dental_recap/core/widgets/decorations_widgets.dart';
 import 'package:dental_recap/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,26 +15,25 @@ class LoginContent extends StatefulWidget {
 }
 
 class _LoginContentState extends State<LoginContent> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(20),
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
       ),
       child: ListView(
@@ -46,12 +47,14 @@ class _LoginContentState extends State<LoginContent> {
             ),
           ),
           const SizedBox(height: 10),
-          TextFormField(
-            controller: _emailController,
+          TextField(
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: _inputDecoration(),
+            decoration: inputDecoration(),
           ),
+
           const SizedBox(height: 20),
+
           const Text(
             'Password',
             style: TextStyle(
@@ -61,25 +64,23 @@ class _LoginContentState extends State<LoginContent> {
             ),
           ),
           const SizedBox(height: 10),
-          TextFormField(
-            controller: _passwordController,
+          TextField(
+            controller: passwordController,
+            keyboardType: TextInputType.visiblePassword,
             obscureText: true,
-            decoration: _inputDecoration(),
+            decoration: inputDecoration(),
           ),
           const SizedBox(height: 32),
+
           BlocConsumer<AuthCubit, AuthState>(
             listener: (context, state) {
               state.maybeWhen(
-                loginFailure: (message) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(message)),
-                  );
-                },
-                loginSuccess: (user) {
-                  Navigator.of(context).pushReplacementNamed(
-                    Routes.home,
-                    arguments: user,
-                  );
+                loginSuccess: (user) =>
+                    context.pushReplacementNamed(Routes.home),
+                loginFailure: (error) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(error)));
                 },
                 orElse: () {},
               );
@@ -89,60 +90,60 @@ class _LoginContentState extends State<LoginContent> {
                 loginLoading: () => true,
                 orElse: () => false,
               );
-
-              return Skeletonizer(
-                enabled: isLoading,
-                child: Column(
-                  children: [
-                    ElevatedButton(
-                      onPressed: isLoading
-                          ? null
-                          : () => context.read<AuthCubit>().login(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.mainBlue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        minimumSize: const Size(270, 44),
+              return Align(
+                child: Skeletonizer(
+                  enabled: isLoading,
+                  child: ElevatedButton(
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            context.read<AuthCubit>().login(
+                              emailController.text,
+                              passwordController.text,
+                            );
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.mainBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Text(
-                        'Log in',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      minimumSize: const Size(270, 50),
+                    ),
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: isLoading
-                          ? null
-                          : () => Navigator.of(context).pushNamed(Routes.signup),
-                      child: const Text('Create account'),
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
           ),
-        ],
-      ),
-    );
-  }
 
-  InputDecoration _inputDecoration() {
-    return InputDecoration(
-      enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.grey),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.mainBlue),
-        borderRadius: BorderRadius.circular(10),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Don\'t have an account?'),
+              TextButton(
+                onPressed: () {
+                  context.pushNamed(Routes.signup);
+                },
+                child: const Text(
+                  'Sign up',
+                  style: TextStyle(
+                    color: AppColors.mainBlue,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

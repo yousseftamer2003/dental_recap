@@ -19,29 +19,31 @@ class LoginScreen extends StatelessWidget {
               end: Alignment.bottomRight,
             ),
           ),
-          child: const SafeArea(
-            child: Column(
-              children: [
-                SizedBox(height: 32),
-                Icon(Icons.flutter_dash, color: Colors.white, size: 64),
-                SizedBox(height: 12),
-                Text(
-                  'Twitter Clone',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.w700,
-                  ),
+          child: const Column(
+            children: [
+              SizedBox(height: 80),
+              Icon(Icons.flutter_dash, color: Colors.white, size: 62),
+              SizedBox(height: 12),
+              Text(
+                'Twitter Clone',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(height: 8),
-                Text(
-                  'Learn Flutter with Firebase',
-                  style: TextStyle(color: Colors.white70, fontSize: 16),
+              ),
+              SizedBox(height: 12),
+              Text(
+                'Login to your account',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
-                SizedBox(height: 24),
-                Expanded(child: LoginContent()),
-              ],
-            ),
+              ),
+              SizedBox(height: 24),
+              Expanded(child: LoginContent()),
+            ],
           ),
         ),
       ),

@@ -9,76 +9,41 @@ part 'auth_state.dart';
 part 'auth_cubit.freezed.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({required AuthRepository authRepository})
-      : _authRepository = authRepository,
-        super(const AuthState.initial());
+  AuthCubit({required AuthRepository authRepository}) 
+  : _authRepository = authRepository, 
+  super(const AuthState.initial());
 
   final AuthRepository _authRepository;
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
-    if (email.trim().isEmpty || password.isEmpty) {
-      emit(const AuthState.loginFailure('Please enter email and password.'));
+  Future<void> login(String email, String password) async {
+    if(email.trim().isEmpty || password.isEmpty) {
+      emit(const AuthState.loginFailure('Email and password are required'));
       return;
     }
 
     emit(const AuthState.loginLoading());
-    final result = await _authRepository.login(
-      email: email,
-      password: password,
-    );
+
+    final result = await _authRepository.login(email: email, password: password);
+
     result.when(
-      success: (user) => emit(AuthState.loginSuccess(user)),
-      failure: (error) => emit(
-        AuthState.loginFailure(
-          error.displayMessage.isNotEmpty
-              ? error.displayMessage
-              : FirebaseErrorConstants.defaultError,
-        ),
-      ),
-    );
+      success: (user) => emit(AuthState.loginSuccess(user)), 
+      failure: (error) => emit(AuthState.loginFailure(error.message ?? ApiConstants.defaultError)),
+      );
   }
 
-  Future<void> signup({
-    required String name,
-    required String email,
-    required String password,
-    required String confirmPassword,
-  }) async {
-    if (name.trim().isEmpty) {
-      emit(const AuthState.signupFailure('Please enter your name.'));
-      return;
-    }
-    if (email.trim().isEmpty || password.isEmpty) {
-      emit(const AuthState.signupFailure('Please enter email and password.'));
-      return;
-    }
-    if (password.length < 6) {
-      emit(const AuthState.signupFailure('Password must be at least 6 characters.'));
-      return;
-    }
-    if (password != confirmPassword) {
-      emit(const AuthState.signupFailure('Passwords do not match.'));
+  Future<void> signup(String name, String email, String password, String confirmPassword) async {
+    if(name.trim().isEmpty || email.trim().isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      emit(const AuthState.signupFailure('Name, email and password are required'));
       return;
     }
 
     emit(const AuthState.signupLoading());
-    final result = await _authRepository.signup(
-      name: name,
-      email: email,
-      password: password,
-    );
+    
+    final result = await _authRepository.signup(name: name, email: email, password: password);
+
     result.when(
-      success: (user) => emit(AuthState.signupSuccess(user)),
-      failure: (error) => emit(
-        AuthState.signupFailure(
-          error.displayMessage.isNotEmpty
-              ? error.displayMessage
-              : FirebaseErrorConstants.defaultError,
-        ),
-      ),
+      success: (user) => emit(AuthState.signupSuccess(user)), 
+      failure: (error) => emit(AuthState.signupFailure(error.message ?? ApiConstants.defaultError)),
     );
   }
 
@@ -86,14 +51,8 @@ class AuthCubit extends Cubit<AuthState> {
     emit(const AuthState.logoutLoading());
     final result = await _authRepository.logout();
     result.when(
-      success: (_) => emit(const AuthState.logoutSuccess()),
-      failure: (error) => emit(
-        AuthState.logoutFailure(
-          error.displayMessage.isNotEmpty
-              ? error.displayMessage
-              : FirebaseErrorConstants.defaultError,
-        ),
-      ),
+      success: (_) => emit(const AuthState.logoutSuccess()), 
+      failure: (error) => emit(AuthState.logoutFailure(error.message ?? ApiConstants.defaultError)),
     );
   }
 }
